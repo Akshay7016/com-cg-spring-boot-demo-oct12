@@ -2,6 +2,8 @@ package com.cg.spring.boot.demo.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -14,25 +16,27 @@ import com.cg.spring.boot.demo.repository.EmployeeRepository;
 @Service
 public class EmployeeService {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
 	public List<Employee> getAllEmployees() {
-		System.out.println("Service getAllEmployees");
+		LOG.info("Service getAllEmployees");
 		return employeeRepository.findAll();
 	}
 
 	//------------------------------------------------------------------------------------
 
 	public Employee getEmployeeById(int eid) {
-		System.out.println("Service getEmployeeById");
+		LOG.info("Service getEmployeeById");
 		return employeeRepository.findById(eid).get();
 	}
 
 	//------------------------------------------------------------------------------------
 
 	public Employee addEmployee(Employee employee) {
-		System.out.println("Service addEmployee");
+		LOG.info("Service addEmployee");
 		if(!employeeRepository.existsById(employee.getEid()))
 			return employeeRepository.save(employee);
 		System.out.println(employee.getEid()+" already exists.");
@@ -42,7 +46,7 @@ public class EmployeeService {
 	//------------------------------------------------------------------------------------
 	
 	public Employee updateEmployee(Employee employee) {
-		System.out.println("Service updateEmployee");
+		LOG.info("Service updateEmployee");
 		if(employeeRepository.existsById(employee.getEid()))
 			return employeeRepository.save(employee);
 		System.out.println(employee.getEid()+" does not exists.");
@@ -52,7 +56,7 @@ public class EmployeeService {
 	//------------------------------------------------------------------------------------
 
 	public int deleteEmployeeById(int eid) {
-		System.out.println("Service deleteEmployeeById");
+		LOG.info("Service deleteEmployeeById");
 		if(employeeRepository.existsById(eid)) {
 			employeeRepository.deleteById(eid);
 			return eid;

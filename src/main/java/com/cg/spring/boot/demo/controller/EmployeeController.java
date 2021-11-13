@@ -2,6 +2,8 @@ package com.cg.spring.boot.demo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,34 +18,36 @@ import com.cg.spring.boot.demo.service.EmployeeService;
 @RestController
 public class EmployeeController {
 	
+	private static final Logger LOG = LoggerFactory.getLogger(EmployeeController.class);
+	
 	@Autowired   //Automatically gives object
 	private EmployeeService empService;
 	
 //	http://localhost:8082/getallemp
 	@GetMapping("/getallemp")
 	public List<Employee> getAllEmps(){
-		System.out.println("Controller getAllEmps");
+		LOG.info("Controller getAllEmps");
 		return empService.getAllEmployees();
 	}
 	
 //	http://localhost:8082/getempbyid/102
 	@GetMapping("/getempbyid/{eid}")
 	public Employee getEmpById(@PathVariable(name = "eid") int id) { 
-		System.out.println("Controller getEmpById");
+		LOG.info("Controller getEmpById");
 		return empService.getEmployeeById(id);
 	}
 	
 //	http://localhost:8082/addemp
 	@PostMapping("/addemp")
 	public Employee addEmp(@RequestBody Employee employee) {
-		System.out.println("Controller addEmp");
+		LOG.info("Controller addEmp");
 		return empService.addEmployee(employee);
 	}
 	
 //	http://localhost:8082/updateemp
 	@PostMapping("/updateemp")
 	public Employee updateEmployee(@RequestBody Employee employee) {
-		System.out.println("Controller updateEmp");
+		LOG.info("Controller updateEmp");
 		return empService.updateEmployee(employee);
 
 	}
@@ -51,7 +55,7 @@ public class EmployeeController {
 //	http://localhost:8082/deleteempbyid/102
 	@DeleteMapping("/deleteempbyid/{eid}")
 	public int deleteEmpById(@PathVariable int eid) {
-		System.out.println("Controller deleteEmpById");
+		LOG.info("Controller deleteEmpById");
 		return empService.deleteEmployeeById(eid);
 
 	}
