@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.cg.spring.boot.demo.exception.EmployeeNotFoundException;
 import com.cg.spring.boot.demo.model.Employee;
 import com.cg.spring.boot.demo.repository.EmployeeRepository;
 
@@ -34,7 +35,8 @@ public class EmployeeService {
 		Optional<Employee> empOpt = employeeRepository.findById(eid);
 		if(!empOpt.isEmpty())
 			return empOpt.get();
-		return null;
+		else
+			throw new EmployeeNotFoundException(eid + " this employee is not found.");
 	}
 
 	//------------------------------------------------------------------------------------
