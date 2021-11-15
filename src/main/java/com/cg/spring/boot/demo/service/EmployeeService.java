@@ -1,6 +1,7 @@
 package com.cg.spring.boot.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,10 @@ public class EmployeeService {
 
 	public Employee getEmployeeById(int eid) {
 		LOG.info("Service getEmployeeById");
-		return employeeRepository.findById(eid).get();
+		Optional<Employee> empOpt = employeeRepository.findById(eid);
+		if(!empOpt.isEmpty())
+			return empOpt.get();
+		return null;
 	}
 
 	//------------------------------------------------------------------------------------

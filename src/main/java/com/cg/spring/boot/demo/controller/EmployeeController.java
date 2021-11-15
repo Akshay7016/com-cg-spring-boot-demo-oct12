@@ -5,6 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,33 +20,64 @@ import com.cg.spring.boot.demo.service.EmployeeService;
 
 @RestController
 public class EmployeeController {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(EmployeeController.class);
-	
-	@Autowired   //Automatically gives object
+
+	@Autowired // Automatically gives object
 	private EmployeeService empService;
-	
+
 //	http://localhost:8082/getallemp
 	@GetMapping("/getallemp")
-	public List<Employee> getAllEmps(){
+	public List<Employee> getAllEmps() {
 		LOG.info("Controller getAllEmps");
 		return empService.getAllEmployees();
 	}
-	
-//	http://localhost:8082/getempbyid/102
+
+// // returns only employee object (body)
+// // http://localhost:8082/getempbyid/102
+//	@GetMapping("/getempbyid/{eid}")
+//	public Employee getEmpById(@PathVariable(name = "eid") int id) { 
+//		LOG.info("Controller getEmpById");
+//		return empService.getEmployeeById(id);
+//	}
+
+//  // returns responseentity object including employee object (body + status code)
+//	// http://localhost:8082/getempbyid/101
+//	@GetMapping("/getempbyid/{eid}")
+//	public ResponseEntity<Employee> getEmpById(@PathVariable(name = "eid") int eid) {
+//		LOG.info("Controller getEmpById");
+//		Employee emp = empService.getEmployeeById(eid);
+//		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, HttpStatus.OK);
+//		return response;
+//	}
+
+//  // returns responseentity object including employee object (body + status code + Headers)
+//	// http://localhost:8082/getempbyid/101
 	@GetMapping("/getempbyid/{eid}")
-	public Employee getEmpById(@PathVariable(name = "eid") int id) { 
+	public ResponseEntity<Employee> getEmpById(@PathVariable(name = "eid") int eid) {
 		LOG.info("Controller getEmpById");
-		return empService.getEmployeeById(id);
+		Employee emp = empService.getEmployeeById(eid);
+		HttpHeaders headers = new HttpHeaders();
+		if(emp != null) {
+			headers.add("message", "This employee object is present in database");
+			ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
+			return response;
+		}
+		else {
+			headers.add("message", "This employee object is not present in database");
+			ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.NOT_FOUND);
+			return response;
+		}
+		
 	}
-	
+
 //	http://localhost:8082/addemp
 	@PostMapping("/addemp")
 	public Employee addEmp(@RequestBody Employee employee) {
 		LOG.info("Controller addEmp");
 		return empService.addEmployee(employee);
 	}
-	
+
 //	http://localhost:8082/updateemp
 	@PostMapping("/updateemp")
 	public Employee updateEmployee(@RequestBody Employee employee) {
@@ -51,7 +85,7 @@ public class EmployeeController {
 		return empService.updateEmployee(employee);
 
 	}
-	
+
 //	http://localhost:8082/deleteempbyid/102
 	@DeleteMapping("/deleteempbyid/{eid}")
 	public int deleteEmpById(@PathVariable int eid) {
@@ -59,14 +93,8 @@ public class EmployeeController {
 		return empService.deleteEmployeeById(eid);
 
 	}
-	
-	
-	 
-	
-	
+
 }
-
-
 
 //
 //@GetMapping("/getemp")
