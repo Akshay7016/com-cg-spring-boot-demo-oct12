@@ -41,5 +41,32 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		headers.add("message", "No employees found in database.");
 		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
 
+	@ExceptionHandler(DepartmentNotFoundException.class)
+	public ResponseEntity<Object> handleDepartmentNotFoundException() {
+		LOG.error("handleDepartmentNotFoundException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This department is NOT available in the database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(DepartmentAlreadyPresentException.class)
+	public ResponseEntity<Object> handleDepartmentAlreadyPresentException() {
+		LOG.error("handleDepartmentAlreadyPresentException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Department already present in the database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(NoDepartmentFoundException.class)
+	public ResponseEntity<Object> handleNoDepartmentFoundException() {
+		LOG.error("handleNoDepartmentFoundException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "No department found in database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
+	}
 }

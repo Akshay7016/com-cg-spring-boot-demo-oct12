@@ -15,47 +15,44 @@ import com.cg.spring.boot.demo.exception.NoEmployeesFoundException;
 import com.cg.spring.boot.demo.model.Employee;
 import com.cg.spring.boot.demo.repository.EmployeeRepository;
 
-
-
 @Service
 public class EmployeeService {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-	//------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
 //	public List<Employee> getAllEmployees() {
 //		LOG.info("Service getAllEmployees");
 //		return employeeRepository.findAll();
 //	}
-	
+
 	public List<Employee> getAllEmployees() {
 		LOG.info("Service getAllEmployees");
 		List<Employee> empOpt = employeeRepository.findAll();
-		if(!empOpt.isEmpty()) {
+		if (!empOpt.isEmpty()) {
 			return empOpt;
-		}
-		else {
+		} else {
 			throw new NoEmployeesFoundException("No employees found");
 		}
-		
+
 	}
 
-	//------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
 	public Employee getEmployeeById(int eid) {
 		LOG.info("Service getEmployeeById");
 		Optional<Employee> empOpt = employeeRepository.findById(eid);
-		if(!empOpt.isEmpty())
+		if (!empOpt.isEmpty())
 			return empOpt.get();
 		else
 			throw new EmployeeNotFoundException(eid + " this employee is not found.");
 	}
 
-	//------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------
 
 //	public Employee addEmployee(Employee employee) {
 //		LOG.info("Service addEmployee");
@@ -64,21 +61,20 @@ public class EmployeeService {
 //		System.out.println(employee.getEid()+" already exists.");
 //		return null;
 //	}
-	
+
 	public Employee addEmployee(Employee employee) {
 		LOG.info("Service addEmployee");
 		boolean empOpt = employeeRepository.existsById(employee.getEid());
-		if(!empOpt) {
+		if (!empOpt) {
 			return employeeRepository.save(employee);
-		}
-		else {
+		} else {
 			throw new EmployeeAlreadyPresentException(employee + " is already exists.");
 		}
-		
+
 	}
-	
-	//------------------------------------------------------------------------------------
-	
+
+// ------------------------------------------------------------------------------------
+
 //	public Employee updateEmployee(Employee employee) {
 //		LOG.info("Service updateEmployee");
 //		if(employeeRepository.existsById(employee.getEid()))
@@ -86,19 +82,18 @@ public class EmployeeService {
 //		System.out.println(employee.getEid()+" does not exists.");
 //		return null;
 //	}
-	
+
 	public Employee updateEmployee(Employee employee) {
 		LOG.info("Service updateEmployee");
 		Optional<Employee> empOpt = employeeRepository.findById(employee.getEid());
-		if(empOpt.isPresent())
+		if (empOpt.isPresent())
 			return employeeRepository.save(employee);
 		else
 			throw new EmployeeNotFoundException(employee + " this employee is not found.");
-		
+
 	}
-	
-	
-	//------------------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------------------
 
 //	public int deleteEmployeeById(int eid) {
 //		LOG.info("Service deleteEmployeeById");
@@ -109,28 +104,83 @@ public class EmployeeService {
 //		System.out.println(eid+" does not exists.");
 //		return 0;
 //	}
-	
+
 	public Employee deleteEmployeeById(int eid) {
 		LOG.info("Service deleteEmployeeById");
 		Optional<Employee> empOpt = employeeRepository.findById(eid);
-		if(empOpt.isPresent()) {
+		if (empOpt.isPresent()) {
 			employeeRepository.deleteById(eid);
 			return empOpt.get();
-		}
-		else {
+		} else {
 			throw new EmployeeNotFoundException(eid + " this employee is not found.");
 		}
 
 	}
 
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeByFirstName(String firstName) {
+		LOG.info("Service getEmployeeByFirstName");
+		List<Employee> empOpt = employeeRepository.findByFirstName(firstName);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException("Employee with first name " + firstName + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeBySalaryInBetween(double salary1, double salary2) {
+		LOG.info("Service getEmployeeBySalaryInBetween");
+		List<Employee> empOpt = employeeRepository.findBySalaryBetween(salary1, salary2);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException(
+					"Employee with salary between " + salary1 + " and  " + salary2 + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeBySalary(double salary) {
+		LOG.info("Service getEmployeeBySalary");
+		List<Employee> empOpt = employeeRepository.findBySalary(salary);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException("Employee with salary " + salary + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeBySalaryGreaterThan(double salary) {
+		LOG.info("Service getEmployeeBySalaryGreaterThan");
+		List<Employee> empOpt = employeeRepository.findBySalaryGreaterThan(salary);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException("Employee with salary greater than " + salary + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeBySalaryLessThan(double salary) {
+		LOG.info("Service getEmployeeBySalaryLessThan");
+		List<Employee> empOpt = employeeRepository.findBySalaryLessThan(salary);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException("Employee with salary less than " + salary + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	public List<Employee> getEmployeeByFirstNameStartsWith(String firstName) {
+		LOG.info("Service getEmployeeByFirstNameStartsWith");
+		List<Employee> empOpt = employeeRepository.findByFirstNameStartingWith(firstName);
+		if (!empOpt.isEmpty())
+			return empOpt;
+		else
+			throw new EmployeeNotFoundException("Employee name starting with " + firstName + " is not found.");
+	}
+
+// ------------------------------------------------------------------------------------
+	
 }
-
-
-
-
-
-
-
 
 ////@Component
 //

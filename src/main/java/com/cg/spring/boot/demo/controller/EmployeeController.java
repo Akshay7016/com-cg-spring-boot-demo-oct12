@@ -26,13 +26,15 @@ public class EmployeeController {
 	@Autowired // Automatically gives object
 	private EmployeeService empService;
 
+// ----------------------------------------------------------------------------------------------------
+
 ////	http://localhost:8082/getallemp
 //	@GetMapping("/getallemp")
 //	public List<Employee> getAllEmps() {
 //		LOG.info("Controller getAllEmps");
 //		return empService.getAllEmployees();
 //	}
-	
+
 	@GetMapping("/getallemp")
 	public ResponseEntity<List<Employee>> getAllEmps() {
 		LOG.info("Controller getAllEmps");
@@ -43,7 +45,7 @@ public class EmployeeController {
 		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
 		return response;
 	}
-	
+
 //----------------------------------------------------------------------------------------------------
 
 // // returns only employee object (body)
@@ -107,7 +109,7 @@ public class EmployeeController {
 //		LOG.info("Controller addEmp");
 //		return empService.addEmployee(employee);
 //	}
-	
+
 	@PostMapping("/addemp")
 	public ResponseEntity<Employee> addEmp(@RequestBody Employee employee) {
 		LOG.info("Controller addEmp");
@@ -118,7 +120,7 @@ public class EmployeeController {
 		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
 		return response;
 	}
-	
+
 //----------------------------------------------------------------------------------------------------
 
 ////	http://localhost:8082/updateemp
@@ -128,7 +130,7 @@ public class EmployeeController {
 //		return empService.updateEmployee(employee);
 //
 //	}
-	
+
 	@PostMapping("/updateemp")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
 		LOG.info("Controller updateEmp");
@@ -139,7 +141,7 @@ public class EmployeeController {
 		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
 		return response;
 	}
-	
+
 //----------------------------------------------------------------------------------------------------
 
 ////	http://localhost:8082/deleteempbyid/102
@@ -149,7 +151,7 @@ public class EmployeeController {
 //		return empService.deleteEmployeeById(eid);
 //
 //	}
-	
+
 	@DeleteMapping("/deleteempbyid/{eid}")
 	public ResponseEntity<Employee> deleteEmpById(@PathVariable int eid) {
 		LOG.info("Controller deleteEmpById");
@@ -161,6 +163,82 @@ public class EmployeeController {
 		return response;
 	}
 
+//----------------------------------------------------------------------------------------------------
+	@GetMapping("/getbyname/{firstName}")
+	public ResponseEntity<List<Employee>> getEmpByFirstName(@PathVariable String firstName) {
+		LOG.info("Controller getEmpByFirstName");
+		List<Employee> emp = empService.getEmployeeByFirstName(firstName); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This employee with first name " + firstName + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+	@GetMapping("/getbysalbet/{salary1}/{salary1}")
+	public ResponseEntity<List<Employee>> getEmpBySalaryInBetween(double salary1, double salary2) {
+		LOG.info("Controller getEmpBySalaryInBetween");
+		List<Employee> emp = empService.getEmployeeBySalaryInBetween(salary1, salary2); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message",
+				"This employee with salary between " + salary1 + " and " + salary2 + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+	@GetMapping("/getbysalary/{salary}")
+	public ResponseEntity<List<Employee>> getEmpBySalary(@PathVariable double salary) {
+		LOG.info("Controller getEmpBySalary");
+		List<Employee> emp = empService.getEmployeeBySalary(salary); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "The employee with salary " + salary + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+
+	@GetMapping("/getbysalarygreaterthan/{salary}")
+	public ResponseEntity<List<Employee>> getEmpBySalaryGreaterThan(@PathVariable double salary) {
+		LOG.info("Controller getEmpBySalaryGreaterThan");
+		List<Employee> emp = empService.getEmployeeBySalaryGreaterThan(salary); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "The employee with salary greater than " + salary + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+	@GetMapping("/getbysalarylessthan/{salary}")
+	public ResponseEntity<List<Employee>> getEmpBySalaryLessThan(@PathVariable double salary) {
+		LOG.info("Controller getEmpBySalaryLessThan");
+		List<Employee> emp = empService.getEmployeeBySalaryLessThan(salary); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "The employee with salary less than " + salary + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+	@GetMapping("/getbyfirstnamestartswith/{firstName}")
+	public ResponseEntity<List<Employee>> getEmpByFirstNameStartsWith(@PathVariable String firstName) {
+		LOG.info("Controller getEmpByFirstNameStartsWith");
+		List<Employee> emp = empService.getEmployeeByFirstNameStartsWith(firstName); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "The employee name starting with " + firstName + " is available in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
+	}
+
+// ----------------------------------------------------------------------------------------------------
+	
 }
 
 //
