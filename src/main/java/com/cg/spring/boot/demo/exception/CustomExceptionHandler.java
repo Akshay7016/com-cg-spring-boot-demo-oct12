@@ -21,5 +21,25 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		headers.add("message", "This employee is NOT available in the database.");
 		return new ResponseEntity<Object>(null, headers, HttpStatus.NOT_FOUND);
 	}
+	
+	//------------------------------------------------------------------------------------------
+	
+	@ExceptionHandler(EmployeeAlreadyPresentException.class)
+	public ResponseEntity<Object> handleEmployeeAlreadyPresentException() {
+		LOG.error("handleEmployeeAlreadyPresentException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Employee already present in the database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
+	}
+	
+	//------------------------------------------------------------------------------------------
+
+	@ExceptionHandler(NoEmployeesFoundException.class)
+	public ResponseEntity<Object> handleNoEmployeesFoundException() {
+		LOG.error("handleNoEmployeesFoundException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "No employees found in database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
+	}
 
 }

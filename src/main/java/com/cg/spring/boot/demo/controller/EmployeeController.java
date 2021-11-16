@@ -26,12 +26,25 @@ public class EmployeeController {
 	@Autowired // Automatically gives object
 	private EmployeeService empService;
 
-//	http://localhost:8082/getallemp
+////	http://localhost:8082/getallemp
+//	@GetMapping("/getallemp")
+//	public List<Employee> getAllEmps() {
+//		LOG.info("Controller getAllEmps");
+//		return empService.getAllEmployees();
+//	}
+	
 	@GetMapping("/getallemp")
-	public List<Employee> getAllEmps() {
+	public ResponseEntity<List<Employee>> getAllEmps() {
 		LOG.info("Controller getAllEmps");
-		return empService.getAllEmployees();
+		List<Employee> emp = empService.getAllEmployees(); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "All employees details are retrieved.");
+		LOG.info(headers.toString());
+		ResponseEntity<List<Employee>> response = new ResponseEntity<>(emp, headers, HttpStatus.OK);
+		return response;
 	}
+	
+//----------------------------------------------------------------------------------------------------
 
 // // returns only employee object (body)
 // // http://localhost:8082/getempbyid/102
@@ -86,27 +99,66 @@ public class EmployeeController {
 		return response;
 	}
 
-//	http://localhost:8082/addemp
+//----------------------------------------------------------------------------------------------------
+
+////	http://localhost:8082/addemp
+//	@PostMapping("/addemp")
+//	public Employee addEmp(@RequestBody Employee employee) {
+//		LOG.info("Controller addEmp");
+//		return empService.addEmployee(employee);
+//	}
+	
 	@PostMapping("/addemp")
-	public Employee addEmp(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> addEmp(@RequestBody Employee employee) {
 		LOG.info("Controller addEmp");
-		return empService.addEmployee(employee);
+		Employee emp = empService.addEmployee(employee); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This employee is added to the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
+		return response;
 	}
+	
+//----------------------------------------------------------------------------------------------------
 
-//	http://localhost:8082/updateemp
+////	http://localhost:8082/updateemp
+//	@PostMapping("/updateemp")
+//	public Employee updateEmployee(@RequestBody Employee employee) {
+//		LOG.info("Controller updateEmp");
+//		return empService.updateEmployee(employee);
+//
+//	}
+	
 	@PostMapping("/updateemp")
-	public Employee updateEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
 		LOG.info("Controller updateEmp");
-		return empService.updateEmployee(employee);
-
+		Employee emp = empService.updateEmployee(employee); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This employee details updated in the database.");
+		LOG.info(headers.toString());
+		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
+		return response;
 	}
+	
+//----------------------------------------------------------------------------------------------------
 
-//	http://localhost:8082/deleteempbyid/102
+////	http://localhost:8082/deleteempbyid/102
+//	@DeleteMapping("/deleteempbyid/{eid}")
+//	public int deleteEmpById(@PathVariable int eid) {
+//		LOG.info("Controller deleteEmpById");
+//		return empService.deleteEmployeeById(eid);
+//
+//	}
+	
 	@DeleteMapping("/deleteempbyid/{eid}")
-	public int deleteEmpById(@PathVariable int eid) {
+	public ResponseEntity<Employee> deleteEmpById(@PathVariable int eid) {
 		LOG.info("Controller deleteEmpById");
-		return empService.deleteEmployeeById(eid);
-
+		Employee emp = empService.deleteEmployeeById(eid); // line
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "This employee deleted successfully.");
+		LOG.info(headers.toString());
+		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, HttpStatus.OK);
+		return response;
 	}
 
 }
