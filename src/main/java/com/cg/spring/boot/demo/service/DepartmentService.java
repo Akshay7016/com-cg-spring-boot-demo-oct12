@@ -8,9 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cg.spring.boot.demo.exception.DepartmentAlreadyPresentException;
+import com.cg.spring.boot.demo.exception.DepartmentAlreadyExistsException;
 import com.cg.spring.boot.demo.exception.DepartmentNotFoundException;
-import com.cg.spring.boot.demo.exception.NoDepartmentFoundException;
 import com.cg.spring.boot.demo.model.Department;
 import com.cg.spring.boot.demo.repository.DepartmentRepository;
 
@@ -28,7 +27,7 @@ public class DepartmentService {
 		if (!depOpt.isEmpty()) {
 			return depOpt;
 		} else {
-			throw new NoDepartmentFoundException("No department found");
+			throw new DepartmentNotFoundException("No department found");
 		}
 	}
 	
@@ -51,7 +50,7 @@ public class DepartmentService {
 		if (!depOpt) {
 			return departmentRepository.save(department);
 		} else {
-			throw new DepartmentAlreadyPresentException(department + " is already exists.");
+			throw new DepartmentAlreadyExistsException(department + " is already exists.");
 		}
 	}
 	

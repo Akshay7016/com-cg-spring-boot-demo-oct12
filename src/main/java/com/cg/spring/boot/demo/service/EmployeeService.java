@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.cg.spring.boot.demo.exception.EmployeeAlreadyPresentException;
+import com.cg.spring.boot.demo.exception.EmployeeAlreadyExistsException;
 import com.cg.spring.boot.demo.exception.EmployeeNotFoundException;
-import com.cg.spring.boot.demo.exception.NoEmployeesFoundException;
 import com.cg.spring.boot.demo.model.Employee;
 import com.cg.spring.boot.demo.repository.EmployeeRepository;
 
@@ -36,7 +35,7 @@ public class EmployeeService {
 		if (!empOpt.isEmpty()) {
 			return empOpt;
 		} else {
-			throw new NoEmployeesFoundException("No employees found");
+			throw new EmployeeNotFoundException("No employees found");
 		}
 
 	}
@@ -68,7 +67,7 @@ public class EmployeeService {
 		if (!empOpt) {
 			return employeeRepository.save(employee);
 		} else {
-			throw new EmployeeAlreadyPresentException(employee + " is already exists.");
+			throw new EmployeeAlreadyExistsException(employee + " is already exists.");
 		}
 
 	}

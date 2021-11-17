@@ -24,21 +24,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	//------------------------------------------------------------------------------------------
 	
-	@ExceptionHandler(EmployeeAlreadyPresentException.class)
-	public ResponseEntity<Object> handleEmployeeAlreadyPresentException() {
-		LOG.error("handleEmployeeAlreadyPresentException");
+	@ExceptionHandler(EmployeeAlreadyExistsException.class)
+	public ResponseEntity<Object> handleEmployeeAlreadyExistsException() {
+		LOG.error("handleEmployeeAlreadyExistsException");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("message", "Employee already present in the database.");
-		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
-	}
-	
-	//------------------------------------------------------------------------------------------
-
-	@ExceptionHandler(NoEmployeesFoundException.class)
-	public ResponseEntity<Object> handleNoEmployeesFoundException() {
-		LOG.error("handleNoEmployeesFoundException");
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("message", "No employees found in database.");
 		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
 	}
 	
@@ -54,19 +44,30 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>(null, headers, HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler(DepartmentAlreadyPresentException.class)
-	public ResponseEntity<Object> handleDepartmentAlreadyPresentException() {
-		LOG.error("handleDepartmentAlreadyPresentException");
+	@ExceptionHandler(DepartmentAlreadyExistsException.class)
+	public ResponseEntity<Object> handleDepartmentExistsPresentException() {
+		LOG.error("handleDepartmentExistsPresentException");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("message", "Department already present in the database.");
 		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(NoDepartmentFoundException.class)
-	public ResponseEntity<Object> handleNoDepartmentFoundException() {
-		LOG.error("handleNoDepartmentFoundException");
+	//--------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------
+	
+	@ExceptionHandler(AppUserNotFoundException.class)
+	public ResponseEntity<Object> handleAppUserNotFoundException() {
+		LOG.error("handleAppUserNotFoundException");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("message", "No department found in database.");
+		headers.add("message", "This user name is NOT available in the database.");
+		return new ResponseEntity<Object>(null, headers, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(AppUserAlreadyExistsException.class)
+	public ResponseEntity<Object> handleAppUserAlreadyExistsException() {
+		LOG.error("handleAppUserAlreadyExistsException");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "User name already present in the database.");
 		return new ResponseEntity<Object>(null, headers, HttpStatus.BAD_REQUEST);
 	}
 }
