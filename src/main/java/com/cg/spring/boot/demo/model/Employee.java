@@ -78,6 +78,7 @@ public class Employee implements Serializable{
 		this.salary = salary;
 	}
 
+	
 	public Department getDepartment() {
 		return department;
 	}
@@ -91,6 +92,10 @@ public class Employee implements Serializable{
 		return "Employee [eid=" + eid + ", firstName=" + firstName + ", salary=" + salary + ", department=" + department
 				+ "]";
 	}
+
+
+	
+
 
 	
 	
