@@ -22,11 +22,10 @@ public class AppUserService {
 
 	public AppUser register(AppUser appUser) {
 		LOG.info("Service register");
-		if(appUserRepository.findByUserName(appUser.getUserName())!=null) {
+		if (appUserRepository.findByUserName(appUser.getUserName()) != null) {
 			LOG.info("User already exists");
-			throw new AppUserAlreadyExistsException("\""+appUser.getUserName() + "\" user name is already exists.");
-		}
-		else
+			throw new AppUserAlreadyExistsException("\"" + appUser.getUserName() + "\" user name is already exists.");
+		} else
 			return appUserRepository.save(appUser);
 
 	}
@@ -53,4 +52,6 @@ public class AppUserService {
 		
 		return null;
 	}
+
+	
 }
